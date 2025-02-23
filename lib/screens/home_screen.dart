@@ -1,4 +1,6 @@
 import 'package:assignment_1/constant/colors.dart';
+import 'package:assignment_1/data/movie.dart';
+import 'package:assignment_1/widgets/custom_card.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -9,6 +11,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<MovieModel> foryourItemList = List.of(forYouImages);
+  PageController pageController =
+      PageController(initialPage: 0, viewportFraction: 0.9);
+  int currentPage = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,6 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
+
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
                     child: Container(
@@ -90,52 +98,66 @@ class _HomeScreenState extends State<HomeScreen> {
                         border: Border.all(color: Colors.white70),
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      child: const Row(
+                      child: Row(
                         children: [
-                          Expanded(
+                          const SizedBox(width: 15),
+                          const Expanded(
                             child: TextField(
+                              style: TextStyle(color: Colors.white),
                               decoration: InputDecoration(
-                                hintText: "Search",
-                                hintStyle: TextStyle(
-                                    color: Colors.white, fontSize: 18),
+                                hintText: 'Search',
+                                hintStyle: TextStyle(color: Colors.grey),
                                 border: InputBorder.none,
                               ),
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
                             ),
                           ),
-                          Icon(
-                            Icons.search,
-                            color: Colors.grey,
-                            size: 30,
+                          IconButton(
+                            icon: const Icon(Icons.search, color: Colors.grey),
+                            onPressed: () {},
                           ),
                         ],
                       ),
-
-                      // child: const Row(
-                      //   children: [
-                      //     Text("Search",
-                      //         style:
-                      //             TextStyle(color: Colors.white, fontSize: 18)),
-                      //     // SizedBox(
-                      //     //   width: 10,
-                      //     // ),
-                      //     Spacer(),
-                      //     Icon(
-                      //       Icons.search,
-                      //       color: Colors.grey,
-                      //       size: 30,
-                      //     ),
-                      //   ],
-                      // ),
                     ),
-                  )
+                  ),
+                  const SizedBox(height: 20),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                    child: Text(
+                      "for you",
+                      style: TextStyle(
+                        color: Colors.white54,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ),
+                  foryourCardLayout(foryourItemList),
                 ],
               ),
             ),
           ),
+          // for bottom bar
+          Positioned(child: Container())
         ],
       ),
+    );
+  }
+
+  Widget foryourCardLayout(List<MovieModel> movieList) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.50,
+      child: PageView.builder(
+          controller: pageController,
+          itemCount: movieList.length,
+          itemBuilder: (context, index) {
+            return CustomCard(
+                imageAsset: movieList[index].imageAsset.toString());
+          },
+          onPageChanged: (int page) {
+            setState(() {
+              currentPage = page;
+            });
+          }),
     );
   }
 }
