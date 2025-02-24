@@ -12,7 +12,6 @@ class CustomCardNormal extends StatelessWidget {
           height: 200,
           width: 140,
           foregroundDecoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
             gradient: LinearGradient(
               colors: [
                 Colors.black.withOpacity(0.8),
@@ -24,6 +23,7 @@ class CustomCardNormal extends StatelessWidget {
           ),
           margin: const EdgeInsets.symmetric(horizontal: 8),
           decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
             image: DecorationImage(
               image: AssetImage(movieModel.imageAsset!),
               fit: BoxFit.cover,
