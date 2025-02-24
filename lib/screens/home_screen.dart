@@ -15,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<MovieModel> foryourItemList = List.of(forYouImages);
+  List<MovieModel> categoryItemList = List.of(forYouImages);
   List<MovieModel> popularItemList = List.of(popularImages);
   List<MovieModel> continueWatchingList = List.of(genresList);
   List<MovieModel> recomendedList = List.of(legendaryImages);
@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
       PageController(initialPage: 0, viewportFraction: 0.9);
   int currentPage = 0;
 
-  //tab bar
+  //Bottom menubar
   List tabBarIcon = [
     Icons.home,
     Icons.tv,
@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // Indicators
   List<Widget> buildPageIndicator() {
     List<Widget> list = [];
-    for (int i = 0; i < foryourItemList.length; i++) {
+    for (int i = 0; i < categoryItemList.length; i++) {
       list.add(i == currentPage ? _indicator(true) : _indicator(false));
     }
     return list;
@@ -87,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "hello Lokman ",
+                              "Hello, Lokman ",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 30),
                             ),
@@ -126,7 +126,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ],
                         ),
-                        // const Spacer()
                       ],
                     ),
                   ),
@@ -134,32 +133,47 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[800],
-                        border: Border.all(color: Colors.white70),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Row(
-                        children: [
-                          const SizedBox(width: 15),
-                          const Expanded(
-                            child: TextField(
-                              style: TextStyle(color: Colors.white),
-                              decoration: InputDecoration(
-                                hintText: 'Search',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                border: InputBorder.none,
-                              ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[800],
+                              border: Border.all(color: Colors.white70),
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: Row(
+                              children: [
+                                const SizedBox(width: 15),
+                                const Expanded(
+                                  child: TextField(
+                                    style: TextStyle(color: Colors.white),
+                                    decoration: InputDecoration(
+                                      hintText: 'Search',
+                                      hintStyle: TextStyle(color: Colors.grey),
+                                      border: InputBorder.none,
+                                    ),
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.search,
+                                      color: Colors.grey),
+                                  onPressed: () {},
+                                ),
+                              ],
                             ),
                           ),
-                          IconButton(
-                            icon: const Icon(Icons.search, color: Colors.grey),
-                            onPressed: () {},
+                        ),
+                        IconButton(
+                          icon: const Icon(
+                            Icons.tune,
+                            color: Colors.grey,
+                            size: 35,
                           ),
-                        ],
-                      ),
+                          onPressed: () {},
+                        ),
+                      ],
                     ),
                   ),
                   const Padding(
@@ -177,7 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Text("See all",
+                            Text("See more",
                                 style: TextStyle(
                                   color: Colors.white70,
                                   fontSize: 20,
@@ -189,7 +203,56 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
 
-                  foryourCardLayout(foryourItemList),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.amber, // Background color
+                              foregroundColor: Colors.white // Text color
+                              ),
+                          child: const Text(
+                            "ALL",
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.grey, // Background color
+                              foregroundColor: Colors.white // Text color
+                              ),
+                          child: const Text(
+                            "Action",
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.grey, // Background color
+                              foregroundColor: Colors.white // Text color
+                              ),
+                          child: const Text(
+                            "Anim",
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.grey, // Background color
+                              foregroundColor: Colors.white // Text color
+                              ),
+                          child: const Text(
+                            "Thriller",
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  cardLayout(categoryItemList),
                   Align(
                     alignment: Alignment.center,
                     child: Container(
@@ -338,7 +401,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget foryourCardLayout(List<MovieModel> movieList) {
+  Widget cardLayout(List<MovieModel> movieList) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.30,
       child: PageView.builder(

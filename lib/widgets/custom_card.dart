@@ -1,6 +1,7 @@
 import 'package:assignment_1/constant/colors.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class CustomCard extends StatelessWidget {
   CustomCard({super.key, required this.imageAsset});
   String imageAsset;

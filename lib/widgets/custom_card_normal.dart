@@ -1,6 +1,7 @@
 import 'package:assignment_1/data/movie.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class CustomCardNormal extends StatelessWidget {
   CustomCardNormal({super.key, required this.movieModel});
   MovieModel movieModel;
