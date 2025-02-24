@@ -3,6 +3,8 @@ import 'package:assignment_1/data/movie.dart';
 import 'package:assignment_1/widgets/custom_card.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/custom_card_normal.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -12,9 +14,38 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<MovieModel> foryourItemList = List.of(forYouImages);
+  List<MovieModel> popularItemList = List.of(popularImages);
   PageController pageController =
       PageController(initialPage: 0, viewportFraction: 0.9);
   int currentPage = 0;
+
+  // Indicators
+  List<Widget> buildPageIndicator() {
+    List<Widget> list = [];
+    for (int i = 0; i < foryourItemList.length; i++) {
+      list.add(i == currentPage ? _indicator(true) : _indicator(false));
+    }
+    return list;
+  }
+
+  Widget _indicator(bool isActive) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 150),
+      margin: const EdgeInsets.symmetric(horizontal: 8),
+      height: 8,
+      width: isActive ? 24 : 8,
+      decoration: BoxDecoration(
+        color: isActive ? Colors.white : Colors.grey,
+        borderRadius: BorderRadius.circular(12),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,24 +173,38 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
-                        children: [
-                          // const SizedBox(width: 30),
-                          ...buildPageIndicator(),
-                          // const Spacer(),
-                          // IconButton(
-                          //   icon: const Icon(Icons.arrow_forward_ios),
-                          //   onPressed: () {
-                          //     pageController.animateToPage(
-                          //       currentPage + 1,
-                          //       duration: const Duration(milliseconds: 400),
-                          //       curve: Curves.easeIn,
-                          //     );
-                          //   },
-                          // ),
-                        ],
+                        children: buildPageIndicator(),
                       ),
                     ),
-                  )
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Trending Movies",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                            Text("See all",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w300,
+                                )),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+
+                  movieListBuildert(popularItemList),
                 ],
               ),
             ),
@@ -175,6 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.30,
       child: PageView.builder(
+          physics: const ClampingScrollPhysics(),
           controller: pageController,
           itemCount: movieList.length,
           itemBuilder: (context, index) {
@@ -189,23 +235,16 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  List<Widget> buildPageIndicator() {
-    List<Widget> list = [];
-    for (int i = 0; i < foryourItemList.length; i++) {
-      list.add(i == currentPage ? _indicator(true) : _indicator(false));
-    }
-    return list;
-  }
-
-  Widget _indicator(bool isActive) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 150),
-      margin: const EdgeInsets.symmetric(horizontal: 8),
-      height: 8,
-      width: isActive ? 24 : 8,
-      decoration: BoxDecoration(
-        color: isActive ? Colors.white : Colors.grey,
-        borderRadius: BorderRadius.circular(12),
+  Widget movieListBuildert(List<MovieModel> movieList) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 28, vertical: 10),
+      height: MediaQuery.of(context).size.height * 0.27,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: movieList.length,
+        itemBuilder: (context, index) {
+          return CustomCardNormal(movieModel: movieList[index]);
+        },
       ),
     );
   }
