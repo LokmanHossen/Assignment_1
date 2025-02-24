@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:assignment_1/constant/colors.dart';
 import 'package:assignment_1/data/movie.dart';
 import 'package:assignment_1/widgets/custom_card.dart';
@@ -20,6 +22,14 @@ class _HomeScreenState extends State<HomeScreen> {
   PageController pageController =
       PageController(initialPage: 0, viewportFraction: 0.9);
   int currentPage = 0;
+
+  //tab bar
+  List tabBarIcon = [
+    Icons.home,
+    Icons.tv,
+    Icons.download,
+    Icons.person,
+  ];
 
   // Indicators
   List<Widget> buildPageIndicator() {
@@ -152,18 +162,33 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
                   const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                    child: Text(
-                      "for you",
-                      style: TextStyle(
-                        color: Colors.white54,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w300,
-                      ),
+                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Categories",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text("See all",
+                                style: TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w300,
+                                )),
+                          ],
+                        )
+                      ],
                     ),
                   ),
+
                   foryourCardLayout(foryourItemList),
                   Align(
                     alignment: Alignment.center,
@@ -196,7 +221,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             Text("See all",
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.white70,
                                   fontSize: 20,
                                   fontWeight: FontWeight.w300,
                                 )),
@@ -226,7 +251,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Text(
                               "See all",
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.white70,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w300,
                               ),
@@ -273,7 +298,41 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           // for bottom bar
-          Positioned(child: Container())
+          Positioned(
+              bottom: 35,
+              left: 25,
+              right: 25,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(
+                    sigmaX: 25.0,
+                    sigmaY: 25.0,
+                  ),
+                  child: Container(
+                    color: kSearchbarColor.withOpacity(0.6),
+                    width: MediaQuery.of(context).size.width,
+                    height: 80,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ...tabBarIcon.map((e) {
+                          return IconButton(
+                            icon: Icon(
+                              e,
+                              color: e == Icons.home
+                                  ? Colors.amber
+                                  : Colors.white54,
+                            ),
+                            onPressed: () {},
+                            color: Colors.white,
+                          );
+                        }).toList(),
+                      ],
+                    ),
+                  ),
+                ),
+              ))
         ],
       ),
     );
@@ -306,7 +365,9 @@ class _HomeScreenState extends State<HomeScreen> {
         scrollDirection: Axis.horizontal,
         itemCount: movieList.length,
         itemBuilder: (context, index) {
-          return CustomCardNormal(movieModel: movieList[index]);
+          return CustomCardNormal(
+            movieModel: movieList[index],
+          );
         },
       ),
     );

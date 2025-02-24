@@ -12,6 +12,7 @@ class CustomCardNormal extends StatelessWidget {
           height: 200,
           width: 140,
           foregroundDecoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
             gradient: LinearGradient(
               colors: [
                 Colors.black.withOpacity(0.8),
