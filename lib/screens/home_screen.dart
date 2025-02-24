@@ -132,6 +132,34 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   foryourCardLayout(foryourItemList),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      padding: const EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[800],
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          // const SizedBox(width: 30),
+                          ...buildPageIndicator(),
+                          // const Spacer(),
+                          // IconButton(
+                          //   icon: const Icon(Icons.arrow_forward_ios),
+                          //   onPressed: () {
+                          //     pageController.animateToPage(
+                          //       currentPage + 1,
+                          //       duration: const Duration(milliseconds: 400),
+                          //       curve: Curves.easeIn,
+                          //     );
+                          //   },
+                          // ),
+                        ],
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
@@ -145,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget foryourCardLayout(List<MovieModel> movieList) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.50,
+      height: MediaQuery.of(context).size.height * 0.30,
       child: PageView.builder(
           controller: pageController,
           itemCount: movieList.length,
@@ -158,6 +186,27 @@ class _HomeScreenState extends State<HomeScreen> {
               currentPage = page;
             });
           }),
+    );
+  }
+
+  List<Widget> buildPageIndicator() {
+    List<Widget> list = [];
+    for (int i = 0; i < foryourItemList.length; i++) {
+      list.add(i == currentPage ? _indicator(true) : _indicator(false));
+    }
+    return list;
+  }
+
+  Widget _indicator(bool isActive) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 150),
+      margin: const EdgeInsets.symmetric(horizontal: 8),
+      height: 8,
+      width: isActive ? 24 : 8,
+      decoration: BoxDecoration(
+        color: isActive ? Colors.white : Colors.grey,
+        borderRadius: BorderRadius.circular(12),
+      ),
     );
   }
 }

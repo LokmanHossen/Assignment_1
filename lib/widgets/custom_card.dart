@@ -13,6 +13,7 @@ class CustomCard extends StatelessWidget {
             color: kButtonColor.withOpacity(0.25),
             blurRadius: 5,
             spreadRadius: 1,
+            offset: const Offset(0, 3),
           ),
         ],
         borderRadius: BorderRadius.circular(20),
