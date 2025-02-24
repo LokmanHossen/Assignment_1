@@ -15,6 +15,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<MovieModel> foryourItemList = List.of(forYouImages);
   List<MovieModel> popularItemList = List.of(popularImages);
+  List<MovieModel> continueWatchingList = List.of(genresList);
+  List<MovieModel> recomendedList = List.of(legendaryImages);
   PageController pageController =
       PageController(initialPage: 0, viewportFraction: 0.9);
   int currentPage = 0;
@@ -205,6 +207,67 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
 
                   movieListBuildert(popularItemList),
+
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Continue Watching",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                            Text(
+                              "See all",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  continueWatchingBuilder(genresList),
+
+                  // Recomened for you
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Recomended for you",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                            Text(
+                              "See all",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  movieListBuildert(recomendedList)
                 ],
               ),
             ),
@@ -244,6 +307,51 @@ class _HomeScreenState extends State<HomeScreen> {
         itemCount: movieList.length,
         itemBuilder: (context, index) {
           return CustomCardNormal(movieModel: movieList[index]);
+        },
+      ),
+    );
+  }
+
+  // continue Watching list
+  Widget continueWatchingBuilder(List<MovieModel> genresList) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 30),
+      height: MediaQuery.of(context).size.height * 0.20,
+      child: ListView.builder(
+        itemCount: genresList.length,
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          return Stack(
+            children: [
+              Container(
+                width: 250,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(
+                      genresList[index].imageAsset.toString(),
+                    ),
+                    fit: BoxFit.cover,
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                margin: const EdgeInsets.only(
+                    left: 10, right: 10, top: 8, bottom: 30),
+              ),
+              Positioned(
+                bottom: 0,
+                left: 20,
+                child: Text(
+                  genresList[index].movieName.toString(),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          );
         },
       ),
     );
